@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# configure network, isolated form host, but shared tor virtual machines
+
+VM_NAME=${1%.*}
+
+vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
+vboxmanage modifyvm $VM_NAME --nic1 natnetwork --nat-network1 mynet

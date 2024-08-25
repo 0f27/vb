@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# if u use btrfs please disable copy-on-write for folder with virtual drives
-# sudo chattr +C .
+# if u use btrfs please disable copy-on-write for virtual drives
+# sudo chattr +C *.vdi
 
 VM_NAME=${1%.*}
 DRIVE_NAME=$1
@@ -30,8 +30,5 @@ if [ -z $ISO_PATH ]; then
 fi
 vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
 
-# network, shared with another VMs
-vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
-
 # add all the stuff
-vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 natnetwork --nat-network1 mynet
+vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional
