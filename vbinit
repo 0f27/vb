@@ -30,7 +30,7 @@ if [ -z $ISO_PATH ]; then
 fi
 vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
 
-# network
+# network, shared with another VMs
 vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
 
 # add all the stuff
