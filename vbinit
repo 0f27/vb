@@ -7,17 +7,32 @@
 
 VM_NAME=${1%.*}
 DRIVE_NAME=$1
+ISO_PATH=$2
 
+# cleanup
+vboxmanage unregistervm $VM_NAME
 rm -rf "$HOME/VirtualBox VMs/$VM_NAME"
-vboxmanage unregistervm --delete $VM_NAME
 
+# init
 vboxmanage createvm --name $VM_NAME --register # --ostype=linux
-vboxmanage storagectl $VM_NAME --name "SATAController" --add sata --portcount 1
-vboxmanage storageattach $VM_NAME --storagectl "SATAController" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
-# TODO -- add empty cdrom
 
+# storage
+vboxmanage storagectl $VM_NAME --name "SATA Controller" --add sata --portcount 1 --bootable on
+vboxmanage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
+if [ ! -f $DRIVE_NAME ]; then
+  qemu-img create -f vpc $DRIVE_NAME 40G
+fi
+vboxmanage storageattach $VM_NAME --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
+
+if [ -z $ISO_PATH ]; then
+  vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium none
+else
+  vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
+fi
+
+# network
 vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
-# TODO -- add created network
 
-vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 2 --vram 16
-# vboxmanage modifyvm $VM_NAME --firmware bios --memory 2048 --cpus 2 --vram 16
+# add all the stuff
+vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 2 --vram 16 --nic1 nat --nic2 natnetwork --nat-network2 mynet
+# vboxmanage modifyvm $VM_NAME --firmware bios --memory 2048 --cpus 2 --vram 16 --nic1 natnetwork --nat-network1 mynet
