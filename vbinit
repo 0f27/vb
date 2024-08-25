@@ -17,16 +17,18 @@ vboxmanage createvm --name $VM_NAME --register # --ostype=linux
 # storage
 vboxmanage storagectl $VM_NAME --name "SATA Controller" --add sata --portcount 1 --bootable on
 vboxmanage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
+
+# hdd attach or create and attach
 if [ ! -f $DRIVE_NAME ]; then
   vbox-img createbase --filename $DRIVE_NAME --size 42949672960 --format VDI # 40GB
 fi
 vboxmanage storageattach $VM_NAME --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
 
+# iso attach or attach blank if not specified
 if [ -z $ISO_PATH ]; then
-  vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium none
-else
-  vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
+  ISO_PATH='none'
 fi
+vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
 
 # network
 vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
