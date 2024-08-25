@@ -3,8 +3,6 @@
 # if u use btrfs please disable copy-on-write for folder with virtual drives
 # sudo chattr +C .
 
-# maybe you need to create NAT Network with DHCP enabled
-
 VM_NAME=${1%.*}
 DRIVE_NAME=$1
 ISO_PATH=$2
@@ -35,4 +33,3 @@ vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable -
 
 # add all the stuff
 vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 2 --vram 16 --nic1 nat --nic2 natnetwork --nat-network2 mynet
-# vboxmanage modifyvm $VM_NAME --firmware bios --memory 2048 --cpus 2 --vram 16 --nic1 natnetwork --nat-network1 mynet
