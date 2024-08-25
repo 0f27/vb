@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# remove VM but keep drives if stored outside of the folder
+vboxmanage unregistervm $VM_NAME
+rm -rf "$HOME/VirtualBox VMs/$VM_NAME"

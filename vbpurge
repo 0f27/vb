@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# completely destroy vm and all related files
+vboxmanage unregistervm --delete $VM_NAME
