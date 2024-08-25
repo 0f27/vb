@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# if u use btrfs please disable copy-on-write for folder with virtual drives
+# sudo chattr +C .
+
+# maybe you need to create NAT Network with DHCP enabled
+
+VM_NAME=${1%.*}
+DRIVE_NAME=$1
+
+rm -rf "$HOME/VirtualBox VMs/$VM_NAME"
+vboxmanage unregistervm --delete $VM_NAME
+
+vboxmanage createvm --name $VM_NAME --register # --ostype=linux
+vboxmanage storagectl $VM_NAME --name "SATAController" --add sata --portcount 1
+vboxmanage storageattach $VM_NAME --storagectl "SATAController" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
+# TODO -- add empty cdrom
+
+vboxmanage natnetwork add --netname mynet --network "192.168.15.0/24" --enable --dhcp on
+# TODO -- add created network
+
+vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 2 --vram 16
+# vboxmanage modifyvm $VM_NAME --firmware bios --memory 2048 --cpus 2 --vram 16
