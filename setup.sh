@@ -1,8 +1,8 @@
 #!/bin/bash
 
 mkdir -p "$HOME/.local/bin"
-for s in v*; do
-  ln -s "$(pwd)/$s" "$HOME/.local/bin/$s"
+for script in v*; do
+  ln -s "$(pwd)/$script" "$HOME/.local/bin/$script"
 done
 
 if ! grep -q '.local/bin' $HOME/.zshrc; then
