@@ -14,5 +14,8 @@ vboxmanage createvm --name "$VM_NAME" --register
 vboxmanage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
 vboxmanage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $ISO_PATH
 
+# sharing Downloads folder
+vboxmanage sharedfolder add "$VM_NAME" --name Downloads --hostpath "$HOME/Downloads" --automount
+
 # basic settings
 vboxmanage modifyvm "$VM_NAME" --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
