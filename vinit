@@ -3,9 +3,9 @@
 # if u use btrfs please disable copy-on-write for virtual drives
 # sudo chattr +C *.vdi
 
-VM_NAME=${1%.*}
-DRIVE_NAME=$1
-ISO_PATH=$2
+VM_NAME="${1%.*}"
+DRIVE_NAME="$1"
+ISO_PATH="$2"
 
 # cleanup
 vboxmanage unregistervm $VM_NAME

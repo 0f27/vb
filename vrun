@@ -1,5 +1,5 @@
 #!/bin/bash
 
-VM_NAME=${1%.*}
+VM_NAME="${1%.*}"
 
 vboxmanage startvm $VM_NAME
