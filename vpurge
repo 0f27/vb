@@ -3,4 +3,4 @@
 VM_NAME="${1%.*}"
 
 # completely destroy vm and all related files
-vboxmanage unregistervm --delete $VM_NAME
+vboxmanage unregistervm --delete "$VM_NAME"

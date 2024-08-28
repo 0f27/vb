@@ -8,27 +8,27 @@ DRIVE_NAME="$1"
 ISO_PATH="$2"
 
 # cleanup
-vboxmanage unregistervm $VM_NAME
+vboxmanage unregistervm "$VM_NAME"
 rm -rf "$HOME/VirtualBox VMs/$VM_NAME"
 
 # init
-vboxmanage createvm --name $VM_NAME --register # --ostype=linux
+vboxmanage createvm --name "$VM_NAME" --register # --ostype=linux
 
 # storage
-vboxmanage storagectl $VM_NAME --name "SATA Controller" --add sata --portcount 1 --bootable on
-vboxmanage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
+vboxmanage storagectl "$VM_NAME" --name "SATA Controller" --add sata --portcount 1 --bootable on
+vboxmanage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
 
 # hdd attach or create and attach
 if [ ! -f $DRIVE_NAME ]; then
-  vbox-img createbase --filename $DRIVE_NAME --size 42949672960 --format VDI # 40GB
+  vbox-img createbase --filename "$DRIVE_NAME" --size 42949672960 --format VDI # 40GB
 fi
-vboxmanage storageattach $VM_NAME --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
+vboxmanage storageattach "$VM_NAME" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $DRIVE_NAME
 
 # iso attach or attach blank if not specified
-if [ -z $ISO_PATH ]; then
+if [ -z "$ISO_PATH" ]; then
   ISO_PATH='none'
 fi
-vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
+vboxmanage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 1 --device 1 --type dvddrive --medium $ISO_PATH
 
 # add all the stuff
-vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
+vboxmanage modifyvm "$VM_NAME" --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat

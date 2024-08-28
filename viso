@@ -4,15 +4,15 @@ ISO_PATH="$1"
 VM_NAME="${1%.*}"
 
 # cleanup
-vboxmanage unregistervm $VM_NAME
+vboxmanage unregistervm "$VM_NAME"
 rm -rf "$HOME/VirtualBox VMs/$VM_NAME"
 
 # init
-vboxmanage createvm --name $VM_NAME --register
+vboxmanage createvm --name "$VM_NAME" --register
 
 # storage
-vboxmanage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
-vboxmanage storageattach $VM_NAME --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $ISO_PATH
+vboxmanage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4 --hostiocache on --portcount 2
+vboxmanage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $ISO_PATH
 
 # basic settings
-vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
+vboxmanage modifyvm "$VM_NAME" --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat

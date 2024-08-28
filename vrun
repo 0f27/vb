@@ -2,4 +2,4 @@
 
 VM_NAME="${1%.*}"
 
-vboxmanage startvm $VM_NAME
+vboxmanage startvm "$VM_NAME"
