@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VM_NAME=$1
+VM_NAME=${1%.*}
 
 # remove VM but keep drives if stored outside of the folder
 vboxmanage unregistervm $VM_NAME
