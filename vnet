@@ -3,7 +3,11 @@
 # configure network, isolated form host, but shared tor virtual machines
 
 VM_NAME="${1%.*}"
-NET_NAME=mynet
+NET_NAME="$2"
+
+if [ -z "$NET_NAME" ]; then
+  NET_NAME=mynet
+fi
 
 vboxmanage natnetwork add --netname $NET_NAME --network "192.168.15.0/24" --enable --dhcp on
 vboxmanage modifyvm $VM_NAME --nic1 natnetwork --nat-network1 $NET_NAME
