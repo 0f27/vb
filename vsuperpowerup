@@ -1,0 +1,4 @@
+#!/bin/bash
+
+VM_NAME="${1%.*}"
+vboxmanage modifyvm "$VM_NAME" --memory 9001 --cpus 4 --vram 64
