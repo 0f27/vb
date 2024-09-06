@@ -1,0 +1,5 @@
+#!/bin/bash
+
+VM_NAME="${1%.*}"
+
+vboxmanage export $VM_NAME --ovf20 --output=$VM_NAME.ova

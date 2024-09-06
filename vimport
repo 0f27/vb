@@ -1,0 +1,6 @@
+#!/bin/bash
+
+IMAGE_NAME="$1"
+VM_NAME="${1%.*}"
+
+vboxmanage import "$IMAGE_NAME" --vsys=0 --eula=true --vmname="$VM_NAME" --memory=2048 --cpus=1
