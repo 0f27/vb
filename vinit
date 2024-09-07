@@ -21,7 +21,7 @@ vboxmanage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller 
 # hdd attach or create and attach
 if [ ! -f $DRIVE_NAME ]; then
   if [ $VM_NAME = $DRIVE_NAME ]; then
-    echo nobextension specified, to create in default dir
+    vbox-img createbase --filename "$DRIVE_NAME".vdi --size 42949672960 --format VDI # 40GB
   else
     vbox-img createbase --filename "$DRIVE_NAME" --size 42949672960 --format VDI # 40GB
   fi
