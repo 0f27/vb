@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# configure network, isolated form host, but shared tor virtual machines
+
+VM_NAME="${1%.*}"
+
+vboxmanage modifyvm $VM_NAME --nic1 none
