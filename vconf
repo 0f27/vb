@@ -2,4 +2,4 @@
 
 VM_NAME="${1%.*}"
 
-vboxmanage modifyvm $VM_NAME --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
+vboxmanage modifyvm "$VM_NAME" --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
