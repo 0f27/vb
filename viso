@@ -18,4 +18,4 @@ vboxmanage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --dev
 vboxmanage sharedfolder add "$VM_NAME" --name Downloads --hostpath "$HOME/Downloads" --automount
 
 # basic settings
-vboxmanage modifyvm "$VM_NAME" --firmware efi --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
+vboxmanage modifyvm "$VM_NAME" --memory 2048 --cpus 1 --vram 16 --clipboard bidirectional --draganddrop bidirectional --nic1 nat
