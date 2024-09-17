@@ -1,0 +1,4 @@
+#!/bin/bash
+
+VM_NAME="${1%.*}"
+vboxmanage modifyvm $VM_NAME --nic1 bridged --nictype1 82545EM --bridgeadapter1 wlan0
